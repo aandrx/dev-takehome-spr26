@@ -17,7 +17,7 @@ export default function AdminPage() {
   const [refreshKey, setRefreshKey] = useState(0)
   const pageSize = 10
 
-  // Filter items on the client side
+  //filter items on client side
   const filteredItems = useMemo(() => {
     if (activeFilter === "All") return allItems
     return allItems.filter((item) => {
@@ -31,7 +31,7 @@ export default function AdminPage() {
     })
   }, [allItems, activeFilter, refreshKey])
 
-  // Paginate filtered items
+  //paginate filtered items
   const totalRecords = filteredItems.length
   const startIndex = (currentPage - 1) * pageSize
   const paginatedItems = filteredItems.slice(startIndex, startIndex + pageSize)
@@ -40,7 +40,7 @@ export default function AdminPage() {
     fetchItems()
   }, [])
 
-  // Reset to page 1 when filter changes
+  //reset to page 1 when filter changes
   useEffect(() => {
     setCurrentPage(1)
     setSelectedIds([])
@@ -49,7 +49,7 @@ export default function AdminPage() {
   const fetchItems = async () => {
     setIsLoading(true)
     try {
-      // Fetch all items without status filter, add timestamp to prevent caching
+      //fetch all items without status filter, add timestamp to prevent caching
       const response = await fetch(`/api/request?page=1&pageSize=1000&t=${Date.now()}`, {
         cache: 'no-store'
       })
@@ -60,7 +60,7 @@ export default function AdminPage() {
       if (data.success) {
         const items = data.data.requests.filter((r: ItemRequest) => r._id)
         console.log('Setting allItems:', items.length, 'items', items.map((i: any) => ({ id: i._id, status: i.status })))
-        // Force a new array reference to trigger re-render
+        //force a new array reference to trigger re-render
         setAllItems([...items])
         setRefreshKey(prev => prev + 1)
       }
@@ -73,7 +73,7 @@ export default function AdminPage() {
 
   const handleStatusChange = async (id: string, newStatus: Status) => {
     try {
-      // Convert Status to lowercase for API
+      //convert Status to lowercase for API
       const apiStatus = newStatus.toLowerCase()
       const response = await fetch(`/api/request`, {
         method: "PATCH",
@@ -92,10 +92,10 @@ export default function AdminPage() {
   const handleBatchStatusChange = async (newStatus: Status) => {
     try {
       console.log('Batch status change:', { newStatus, selectedIds })
-      // Convert Status to lowercase for API
+      //convert Status to lowercase for API
       const apiStatus = newStatus.toLowerCase()
       
-      // Use batch update endpoint
+      //use batch update endpoint
       const response = await fetch(`/api/request`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -106,9 +106,9 @@ export default function AdminPage() {
       console.log('Batch update result:', response.status, data)
       
       if (response.ok) {
-        // Clear selection
+        //clear selection
         setSelectedIds([])
-        // Force fresh data fetch
+        //force fresh data fetch
         setAllItems([])
         await fetchItems()
       } else {
@@ -123,7 +123,7 @@ export default function AdminPage() {
     try {
       console.log('Batch delete:', selectedIds)
       
-      // Use batch delete endpoint
+      //use batch delete endpoint
       const response = await fetch(`/api/request?ids=${selectedIds.join(',')}`, {
         method: "DELETE",
       })
@@ -133,7 +133,7 @@ export default function AdminPage() {
       
       if (response.ok) {
         setSelectedIds([])
-        // Force fresh data fetch
+        //force fresh data fetch
         setAllItems([])
         await fetchItems()
       } else {

@@ -4,7 +4,7 @@
 
 - [x] Read the README [please please please]
 - [wip] Something cool!
-- [ ] Back-end
+- [x] Back-end
   - [x] Minimum Requirements
     - [x] Setup MongoDB database
     - [x] Setup item requests collection
@@ -13,21 +13,26 @@
   - [x] Main Requirements
     - [x] `GET /api/request?status=pending`
     - [x] `PATCH /api/request`
-  - [ ] Above and Beyond
-    - [ ] Batch edits
-    - [ ] Batch deletes
-- [ ] Front-end
-  - [ ] Minimum Requirements
-    - [ ] Dropdown component
-    - [ ] Table component
-    - [ ] Base page [table with data]
-    - [ ] Table dropdown interactivity
-  - [ ] Main Requirements
-    - [ ] Pagination
-    - [ ] Tabs
-  - [ ] Above and Beyond
-    - [ ] Batch edits
-    - [ ] Batch deletes
+  - [x] Above and Beyond
+    - [x] Batch edits - `PATCH /api/request` with `{ids: [], status: "status"}`
+    - [x] Batch deletes - `DELETE /api/request?ids=id1,id2,id3`
+- [x] Front-end
+  - [x] Minimum Requirements
+    - [x] Dropdown component (StatusDropdown)
+    - [x] Table component (ItemRequestsTable)
+    - [x] Base page [table with data]
+    - [x] Table dropdown interactivity
+  - [x] Main Requirements
+    - [x] Pagination
+    - [x] Tabs (FilterTabs)
+  - [x] Above and Beyond
+    - [x] Batch edits (BatchActionsBar with Mark As dropdown)
+    - [x] Batch deletes (BatchActionsBar with Delete button)
+
+## Testing Notes
+- [ ] Verify filtering and batch operations work correctly
+- [ ] Test pagination and status updates
+- [ ] Check that all dropdowns and buttons function properly
 
 # Notes
 
@@ -60,7 +65,10 @@
 - Returns: Updated item
 
 ### Environment Variables
-- MONGODB_URI=mongodb+srv://crisis_admin:dLtIQVoseVMCymcO@bog-takehome.ue7xolq.mongodb.net/crisis-corner?appName=bog-takehome
+- See `.env.example` for required environment variables
+- Copy `.env.example` to `.env.local` and populate with your MongoDB credentials
+- **IMPORTANT**: Never commit `.env.local` or actual credentials to version control
 
 ### IP Whitelist
 - Network access set to 0.0.0.0/0 (all IPs allowed)
+- **Security Note**: Consider restricting to specific IP ranges in production
