@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
 
         const result = await getItemRequests(status, page);
         return NextResponse.json(result, { status: 200 });
-    } catch (error) {
+    } catch {
         return NextResponse.json({ error: 'Server error' }, { status: 500 });
     }
 }
@@ -18,8 +18,8 @@ export async function PUT(request: NextRequest) {
         const body = await request.json();
         const result = await createNewRequest(body);
         return NextResponse.json(result, { status: 201 });
-    } catch (error: any) {
-        if (error.message === 'Invalid input') {
+    } catch (error: unknown) {
+        if (error instanceof Error && error.message === 'Invalid input') {
             return NextResponse.json({ error: error.message }, { status: 400 });
         }
         return NextResponse.json({ error: 'Server error' }, { status: 500 });
@@ -38,8 +38,8 @@ export async function PATCH(request: NextRequest) {
             const result = await editStatusRequest(body);
             return NextResponse.json(result, { status: 200 });
         }
-    } catch (error: any) {
-        if (error.message === 'Invalid input' || error.message === 'Request not found') {
+    } catch (error: unknown) {
+        if (error instanceof Error && (error.message === 'Invalid input' || error.message === 'Request not found')) {
             return NextResponse.json({ error: error.message }, { status: 400 });
         }
         return NextResponse.json({ error: 'Server error' }, { status: 500 });
@@ -66,8 +66,8 @@ export async function DELETE(request: NextRequest) {
 
         const result = await deleteRequest(id);
         return NextResponse.json(result, { status: 200 });
-    } catch (error: any) {
-        if (error.message === 'Request not found') {
+    } catch (error: unknown) {
+        if (error instanceof Error && error.message === 'Request not found') {
             return NextResponse.json({ error: error.message }, { status: 404 });
         }
         return NextResponse.json({ error: 'Server error' }, { status: 500 });

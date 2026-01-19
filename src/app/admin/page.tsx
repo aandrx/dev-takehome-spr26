@@ -14,7 +14,6 @@ export default function AdminPage() {
   const [activeFilter, setActiveFilter] = useState<Status | "All">("All")
   const [currentPage, setCurrentPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
-  const [refreshKey, setRefreshKey] = useState(0)
   const pageSize = 10
 
   //filter items on client side
@@ -29,7 +28,7 @@ export default function AdminPage() {
       }
       return mapping[item.status] === activeFilter
     })
-  }, [allItems, activeFilter, refreshKey])
+  }, [allItems, activeFilter])
 
   //paginate filtered items
   const totalRecords = filteredItems.length
@@ -59,10 +58,9 @@ export default function AdminPage() {
       
       if (data.success) {
         const items = data.data.requests.filter((r: ItemRequest) => r._id)
-        console.log('Setting allItems:', items.length, 'items', items.map((i: any) => ({ id: i._id, status: i.status })))
+        console.log('Setting allItems:', items.length, 'items', items.map((i: ItemRequest) => ({ id: i._id, status: i.status })))
         //force a new array reference to trigger re-render
         setAllItems([...items])
-        setRefreshKey(prev => prev + 1)
       }
     } catch (error) {
       console.error("Failed to fetch items:", error)
@@ -172,7 +170,7 @@ export default function AdminPage() {
           {/* Table */}
           <div className="p-6">
             <ItemRequestsTable
-              requests={paginatedItems as any}
+              requests={paginatedItems.filter((r): r is ItemRequest & { _id: string } => !!r._id)}
               selectedIds={selectedIds}
               onSelectionChange={setSelectedIds}
               onStatusChange={handleStatusChange}

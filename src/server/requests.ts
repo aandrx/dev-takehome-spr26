@@ -7,7 +7,7 @@ export async function getItemRequests(status: string | null, page: number) {
     const db = await getDb();
     const collection = db.collection('requests');
 
-    const filter: any = {};
+    const filter: Record<string, unknown> = {};
     if (status && isValidStatus(status)) {
         filter.status = status;
     }
@@ -32,7 +32,7 @@ export async function getItemRequests(status: string | null, page: number) {
     };
 }
 
-export async function createNewRequest(body: any) {
+export async function createNewRequest(body: { requestorName: string; itemRequested: string }) {
     if (!isValidName(body.requestorName) || !isValidItem(body.itemRequested)) {
         throw new Error('Invalid input');
     }
@@ -54,7 +54,7 @@ export async function createNewRequest(body: any) {
     return { ...newRequest, _id: result.insertedId.toString() };
 }
 
-export async function editStatusRequest(body: any) {
+export async function editStatusRequest(body: { id: string; status: string }) {
     if (!body.id || !isValidStatus(body.status)) {
         throw new Error('Invalid input');
     }

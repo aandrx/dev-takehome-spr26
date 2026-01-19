@@ -16,55 +16,6 @@ Make sure to complete the checklist in `notes.md`. Additionally, this is a place
 
 To submit, share the link to your repository in your application. If you have used any env variables, make sure you copy and paste your .env file into the application! Additionally PLEASE WHITELIST ALL IP ADDRESSES in your MongoDB Cluster. We will want to test submissions locally and it is better not to publicly commit env variables.
 
-## Environment Setup 🔐
-
-This project requires environment variables to connect to MongoDB Atlas.
-
-### Setup Instructions
-
-1. **Copy the example file:**
-   ```bash
-   cp .env.example .env.local
-   ```
-
-2. **Get your MongoDB connection string:**
-   - Log into [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-   - Navigate to your cluster and click "Connect"
-   - Choose "Connect your application"
-   - Copy the connection string
-
-3. **Update `.env.local`:**
-   ```env
-   MONGODB_URI=mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/crisis-corner?appName=bog-takehome
-   ```
-   - Replace `YOUR_USERNAME`, `YOUR_PASSWORD`, and `YOUR_CLUSTER` with your actual values
-   - Keep the database name as `crisis-corner`
-
-4. **Verify the connection:**
-   ```bash
-   node test-db.js
-   ```
-
-### Security Notes
-
-- ✅ `.env.local` is already in `.gitignore` and will not be committed
-- ⚠️ Never commit actual credentials to version control
-- 📋 Use `.env.example` as a template for required variables
-- 🔒 For production deployments, use GitHub Secrets or your hosting platform's environment variable management
-
-### GitHub Repository Secrets (Optional)
-
-If you want to store your credentials securely in GitHub (useful for sharing with collaborators or CI/CD):
-
-1. Go to your GitHub repository
-2. Click **Settings** → **Secrets and variables** → **Actions**
-3. Click **"New repository secret"**
-4. Name: `MONGODB_URI`
-5. Value: Your full MongoDB connection string
-6. Click **"Add secret"**
-
-**Note:** You only need to add this secret if you're setting up automated deployments or want secure credential storage. For local development, using `.env.local` is sufficient.
-
 ## Scenario ❤️
 
 _Crisis Corner_ is a non-profit that handles requests for items in areas that are affected by natural disasters. Their current Admin Portal currently only has a form where admins manually type in items to approve them. You are part of a team working with them to build a better Admin Portal where they can manage received item requests in a more nuanced fashion.

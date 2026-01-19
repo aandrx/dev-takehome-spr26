@@ -13,7 +13,7 @@ let clientPromise: Promise<MongoClient>;
 
 //in dev
 if (process.env.NODE_ENV === 'development') {
-    let globalWithMongo = global as typeof globalThis & {
+    const globalWithMongo = global as typeof globalThis & {
         _mongoClientPromise? : Promise<MongoClient>;
     };
 
