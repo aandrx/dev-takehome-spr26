@@ -386,7 +386,7 @@ export default function Kewl() {
               <p>The grid extends infinitely to the right, with the newest content appearing first. 
               As you scroll, you journey through the collection in a cinematic flow.</p>
               <p>Scroll horizontally to explore the full grid, or click on any image to view it in detail. 
-              This type of layout really makes portfolios stand out from the crowd! 🎨✨</p>
+              This type of layout really makes portfolios stand out from the crowd!</p>
             </div>
 
             {/* Instagram Grid that spans the full post height */}
